@@ -13,34 +13,41 @@
    		<script src="js/Ractive.js"></script>
     	<script src="js/index.js"></script>
     
-    	<title>Hello World</title>
+    	<title>Text File Creator</title>
 	</head>
     
     <body>	
+        
     	<div data-role="page" id="pageone">
-      		
-        	<div data-role="header">
-        		<h1>File Test</h1>
+            
+            
+      		<div data-role="header">
+        		<h1>File Tester</h1>
       		</div>
       
+            
       		<div data-role="content">
-        	
             	<div id='container' data-role="fieldcontain"></div>
         		
+                
               	<button id="writeFile">Submit</button>
         		<button id="deleteFile">Delete</button>
         
+                
         		<!--RactiveJS template-->
     			<script id='template' type='text/ractive'>
+                
+                    <label for="textarea">File Name:</label>
+          			<textarea cols="40" rows="1" name="textarea" id="textarea" value='{{filename}}'></textarea><br>
+                
+                
 			 		<label for="textarea">File Contents:</label>
           			<textarea cols="40" rows="8" name="textarea" id="textarea" value='{{filetext}}'></textarea>
     		 	</script>
-                
     		</div>
     
+            
     	</div>
-    
-		
-
+        
 </body>
 </html>

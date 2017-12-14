@@ -2,91 +2,106 @@
 var filetext  = "";
 var fileBinding;
 var fileEntry;
+var filename = "text.txt";
 
 console.log("setting up events");
 
-//setup event listeners
+
+// Setup event listeners
 $(document).on("pagecreate","#pageone", onPageCreated);
 
-//setup listener for device API load
+
+// Setup listener for device API load
 document.addEventListener("deviceready", onDeviceReady, false);
 
-// once jQuery page 'pageone' has been created 
-function onPageCreated() {
 
+// Once jQuery page 'pageone' has been created 
+function onPageCreated() {
+    
      console.log("page created");
-	
-	//setup buttons
+    
+    
+	// Setup buttons
 	$('#writeFile').on("click", writeFile);
 	$('#deleteFile').on("click", deleteFile);
 	
-	// setup RactiveJS binding
-
-	//binding between variable 'filetext' and the template 
+    
+	// Setup RactiveJS binding
+    
+    
+	// Binding between variable 'filetext' and the template 
 	fileBinding = new Ractive({
 		el: 'container',
 		template: '#template',
 		data: { filetext: filetext}
 	});
 
-
-	//detects changes in the text box and updates the 'filetext' value with the new value
+    
+	// Detects changes in the text box and updates the 'filetext' value with the new value
 	fileBinding.observe( 'filetext', function ( newValue, oldValue ) {
   		filetext = newValue; 
 	});
     
 }
 
+
 function onDeviceReady() {
 	console.log("device ready");
-	//setup access to filesystem
-	//window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
+	// Setup access to filesystem
+	// Window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
     window.resolveLocalFileSystemURL(cordova.file.externalDataDirectory, gotFS, fail);
 }
 
-//get access to file and CREATE if does not exists
-function gotFS(fileSystem) {
-    
- 	fileSystem.getFile("test.txt", {create: true, exclusive: false}, gotFileEntry, fail);
+
+
+
+// Get access to file and CREATE if does not exists
+function gotFS(fileSystem) { 
+ 	fileSystem.getFile(filename + ".txt", {create: true, exclusive: false}, gotFileEntry, fail);
 }
 
-//get file entry
+// Get file entry
 function gotFileEntry(fileEntry) {
 	console.log("got file entry");
 	this.fileEntry = fileEntry
 	fileEntry.file(gotFile, fail);
 }
 
-//get file itself
+// Get file itself
 function gotFile(file){
     console.log("got file");
 	readAsText(file);
 }
 
-//READ text from file - assumes that the file contains 
+
+
+
+
+// READ text from file - assumes that the file contains 
 function readAsText(file) {
     console.log("readAsText");
 	
 	var reader = new FileReader();
 	
-	//assigns a callback function to be run once the file has been completely read
+	// Assigns a callback function to be run once the file has been completely read
 	reader.onloadend = function(evt) {
 	
-		//store the new string in 'filetext'
+		// Store the new string in 'filetext'
 		filetext = evt.target.result;
 		
-		//update the binding 
+		// Update the binding 
 		fileBinding.set({ filetext: filetext });
     };
 	
-	//begin reading the file
+	// Begin reading the file
    	reader.readAsText(file);
 }
 
 
-//UDPATE file contents - called when submit button is pressed
-function writeFile()
-{
+
+
+// UPDATE file contents - called when submit button is pressed
+function writeFile() {
     console.log("writeFile: "  + fileEntry.fullPath);
     
 	fileEntry.createWriter(
@@ -97,10 +112,12 @@ function writeFile()
 	);
 }
 
-//DELETE file
-function deleteFile()
-{
-    
+
+
+
+
+// DELETE file
+function deleteFile() {
     console.log("deleteFile");
 	
 	fileEntry.remove(
@@ -110,9 +127,13 @@ function deleteFile()
 		fail
 	);
 	
-	//reload file system
+	// Reload file system
   	window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, gotFS, fail);
 }
+
+
+
+
 
 function fail(error) {
 	alert("Cannot use file: " + error.message);
