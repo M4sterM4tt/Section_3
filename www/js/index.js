@@ -3,7 +3,7 @@
 var filetext  = "";
 var fileBinding;
 var fileEntry;
-var filename = "text.txt";
+var filename = "";
 
 console.log("setting up events");
 
