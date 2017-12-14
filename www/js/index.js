@@ -1,4 +1,5 @@
 //global variables
+
 var filetext  = "";
 var fileBinding;
 var fileEntry;
@@ -27,17 +28,20 @@ function onPageCreated() {
 	
     
 	// Setup RactiveJS binding
-    
-    
+
 	// Binding between variable 'filetext' and the template 
 	fileBinding = new Ractive({
 		el: 'container',
 		template: '#template',
-		data: { filetext: filetext}
+		data: { filename: filename, filetext: filetext}
 	});
 
-    
+ 
 	// Detects changes in the text box and updates the 'filetext' value with the new value
+    fileBinding.observe( 'filename', function ( newValue, oldValue ) {
+  		filename = newValue; 
+	});
+    
 	fileBinding.observe( 'filetext', function ( newValue, oldValue ) {
   		filetext = newValue; 
 	});
