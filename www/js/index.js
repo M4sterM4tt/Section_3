@@ -61,6 +61,7 @@ function onDeviceReady() {
 
 // Get access to file and CREATE if does not exists
 function gotFS(fileSystem) { 
+    console.log(filename);
  	fileSystem.getFile(filename + ".txt", {create: true, exclusive: false}, gotFileEntry, fail);
 }
 
